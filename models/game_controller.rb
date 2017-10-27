@@ -8,14 +8,12 @@ class GameController
     @deck = Deck.new
   end
 
-
   def start_game
     give_cards
     print_info
     @player.bet(BET_SIZE)
     @dealer.bet(BET_SIZE)
     player_move
-    
     @player.fold
     @dealer.fold
   end
@@ -27,8 +25,8 @@ class GameController
   
   def give_cards
     2.times do
-      @player.add_card(@deck.take_card)
-      @dealer.add_card(@deck.take_card)
+      @player.take_card(@deck.take_card)
+      @dealer.take_card(@deck.take_card)
     end
   end
   
@@ -44,7 +42,7 @@ class GameController
         dealer_move
         break
       when 2
-        @player.add_card(@deck.take_card)
+        @player.take_card(@deck.take_card)
         dealer_move
         break
       when 3
@@ -57,7 +55,7 @@ class GameController
   end
   
   def dealer_move
-    @dealer.add_card(@deck.take_card) if @dealer.points < 18
+    @dealer.take_card(@deck.take_card) if @dealer.points < 18
   end
   
   def result

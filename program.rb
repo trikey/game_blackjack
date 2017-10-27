@@ -1,14 +1,3 @@
-=begin
-
-User
-Dealer
-Player
-Deck
-
-
-
-=end
-
 require_relative 'models/game_controller'
 require_relative 'models/user'
 require_relative 'models/deck'
@@ -41,5 +30,4 @@ loop do
   puts 'Играем дальше? (y - да, n - нет)'
   choice = gets.chomp
   break unless choice == 'y'
-  
 end

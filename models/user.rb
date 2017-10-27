@@ -9,7 +9,7 @@ class User
     @cards = []
   end
   
-  def add_card(card)
+  def take_card(card)
     @cards << card
   end
   

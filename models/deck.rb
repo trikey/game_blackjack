@@ -12,12 +12,8 @@ class Deck
   end
 
   def self.deck
-    @deck ||= begin
-      deck = []
-      SUITS.each do |suit|
-        FACES.each { |face| deck << Card.new(face, suit) }
-      end
-      deck
-    end
+    @deck ||= SUITS.map do |suit|
+      FACES.map { |face| Card.new(face, suit) }
+    end.flatten
   end
 end
