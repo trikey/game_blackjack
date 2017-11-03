@@ -6,6 +6,8 @@ class GameController
     @player = player
     @dealer = dealer
     @deck = Deck.new
+    @player_hand = Hand.new
+    @dealer_hand = Hand.new
   end
 
   def start_game
@@ -14,19 +16,19 @@ class GameController
     @player.bet(BET_SIZE)
     @dealer.bet(BET_SIZE)
     player_move
-    @player.fold
-    @dealer.fold
+    @player_hand.fold
+    @dealer_hand.fold
   end
 
   def print_info(show_diler_points = false)
-    puts "Ваши карты: #{@player.cards(:visible)}, #{@player.points} очков"
-    puts "Карты дилера: #{@dealer.cards(show_diler_points)}, #{show_diler_points ? @dealer.points : '*'} очков"
+    puts "Ваши карты: #{@player_hand.cards(:visible)}, #{@player_hand.points} очков"
+    puts "Карты дилера: #{@dealer_hand.cards(show_diler_points)}, #{show_diler_points ? @dealer_hand.points : '*'} очков"
   end
   
   def give_cards
     2.times do
-      @player.take_card(@deck.take_card)
-      @dealer.take_card(@deck.take_card)
+      @player_hand.take_card(@deck.take_card)
+      @dealer_hand.take_card(@deck.take_card)
     end
   end
   
@@ -42,7 +44,7 @@ class GameController
         dealer_move
         break
       when 2
-        @player.take_card(@deck.take_card)
+        @player_hand.take_card(@deck.take_card)
         dealer_move
         break
       when 3
@@ -55,13 +57,13 @@ class GameController
   end
   
   def dealer_move
-    @dealer.take_card(@deck.take_card) if @dealer.points < 18
+    @dealer_hand.take_card(@deck.take_card) if @dealer_hand.points < 18
   end
   
   def result
     print_info(true)
-    player_points = @player.points
-    dealer_points = @dealer.points
+    player_points = @player_hand.points
+    dealer_points = @dealer_hand.points
     if player_points == dealer_points
       draw
     elsif player_points == 21

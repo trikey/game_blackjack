@@ -1,5 +1,6 @@
 require_relative 'models/game_controller'
 require_relative 'models/user'
+require_relative 'models/hand'
 require_relative 'models/deck'
 require_relative 'models/card'
 
