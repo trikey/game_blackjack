@@ -1,3 +1,4 @@
+require_relative 'models/game_interface'
 require_relative 'models/game_controller'
 require_relative 'models/user'
 require_relative 'models/hand'
@@ -17,17 +18,37 @@ puts "Добро пожаловать, #{player.name}. Начнем игру!"
 dealer = User.new('dealer')
 
 game = GameController.new(player, dealer)
+interface = GameInterface.new
 
 loop do
-  if player.bank.zero?
-    puts 'У вас не осталось денег'
-    break
-  elsif dealer.bank.zero?
-    puts 'У дилера не осталось денег'
-    break
+  break unless interface.can_play?(player, dealer)
+  interface.bank_info(player, dealer)
+  
+  game.give_cards
+  interface.print_info(game)
+  game.bet
+  
+  player_move = interface.player_move
+  if player_move == 1
+    game.dealer_move
+  elsif player_move == 2
+    game.player_move
+    game.dealer_move
   end
-  puts "У вас в банке #{player.bank}, у дилера в банке #{dealer.bank}"
-  game.start_game
+  
+  interface.print_info(game, true)
+  result = game.result
+  
+  if result == 0
+    interface.draw
+  elsif result == 1
+    interface.player_win
+  else
+    interface.dealer_win
+  end
+  
+  game.fold
+  
   puts 'Играем дальше? (y - да, n - нет)'
   choice = gets.chomp
   break unless choice == 'y'
